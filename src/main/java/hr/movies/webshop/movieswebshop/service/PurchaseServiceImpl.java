@@ -1,14 +1,12 @@
 package hr.movies.webshop.movieswebshop.service;
 
 import hr.movies.webshop.movieswebshop.dto.CartDTO;
-import hr.movies.webshop.movieswebshop.dto.MovieDTO;
-import hr.movies.webshop.movieswebshop.dto.PurchaseMovieDTO;
 import hr.movies.webshop.movieswebshop.model.*;
 import hr.movies.webshop.movieswebshop.repository.MovieRepository;
-import hr.movies.webshop.movieswebshop.repository.PurchaseMovieRepository;
 import hr.movies.webshop.movieswebshop.repository.PurchaseRepository;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,17 +14,29 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static hr.movies.webshop.movieswebshop.model.PurchaseSpecifications.*;
+import static org.springframework.data.jpa.domain.Specification.where;
+
 @Service
 @AllArgsConstructor
 public class PurchaseServiceImpl implements PurchaseService {
 
     private MovieRepository jpaMoviesRepository;
-    private PurchaseMovieRepository jpaPurchaseMovieRepository;
     private PurchaseRepository jpaPurchaseRepository;
 
     @Override
-    public List<Purchase> getPurchaseHistory(User user) {
+    public List<Purchase> getHistory(@Nullable User user) {
+        if (user == null)
+            return jpaPurchaseRepository.findAll();
         return jpaPurchaseRepository.findByUser(user);
+    }
+
+    @Override
+    public List<Purchase> filterHistory(HistorySearchForm historySearchForm) {
+        Specification<Purchase> spec = where(hasUser(historySearchForm.getUserId()))
+                .and(occurredAfter(historySearchForm.getPurchaseDateFrom()))
+                .and(occurredBefore(historySearchForm.getPurchaseDateTo()));
+        return jpaPurchaseRepository.findAll(spec);
     }
 
     @Override

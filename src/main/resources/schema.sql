@@ -73,3 +73,14 @@ CREATE TABLE PurchaseMovie
     FOREIGN KEY (purchaseId) REFERENCES Purchase (id),
     FOREIGN KEY (movieId) REFERENCES Movie (id)
 );
+
+CREATE TABLE Log
+(
+    id            INT GENERATED ALWAYS AS IDENTITY,
+    userId        INT          NOT NULL,
+    ipAddr        VARCHAR(25)  NOT NULL,
+    message       VARCHAR(255) NOT NULL,
+    localDateTime TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (userId) REFERENCES "User" (id)
+);

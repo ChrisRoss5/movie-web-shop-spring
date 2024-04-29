@@ -20,17 +20,17 @@ public class MovieSpecifications {
         };
     }
 
-    public static Specification<Movie> hasGenre(String genre) {
+    public static Specification<Movie> hasGenre(Integer genreId) {
         return (root, query, cb) -> {
-            if (genre == null || genre.isEmpty()) return null;
-            return cb.equal(root.get("genre").get("name"), genre);
+            if (genreId == null) return null;
+            return cb.equal(root.get("genre").get("id"), genreId);
         };
     }
 
-    public static Specification<Movie> hasAgeRating(String ageRating) {
+    public static Specification<Movie> hasAgeRating(Integer ageRatingId) {
         return (root, query, cb) -> {
-            if (ageRating == null || ageRating.isEmpty()) return null;
-            return cb.equal(root.get("ageRating").get("name"), ageRating);
+            if (ageRatingId == null) return null;
+            return cb.equal(root.get("ageRating").get("id"), ageRatingId);
         };
     }
 
@@ -54,6 +54,15 @@ public class MovieSpecifications {
             if (priceFrom != null && priceTo == null) return cb.greaterThanOrEqualTo(root.get("price"), priceFrom);
             if (priceFrom == null) return cb.lessThanOrEqualTo(root.get("price"), priceTo);
             return cb.between(root.get("price"), priceFrom, priceTo);
+        };
+    }
+
+    public static Specification<Movie> durationBetween(Integer durationMinutesFrom, Integer durationMinutesTo) {
+        return (root, query, cb) -> {
+            if (durationMinutesFrom == null && durationMinutesTo == null) return null;
+            if (durationMinutesFrom != null && durationMinutesTo == null) return cb.greaterThanOrEqualTo(root.get("durationMinutes"), durationMinutesFrom);
+            if (durationMinutesFrom == null) return cb.lessThanOrEqualTo(root.get("durationMinutes"), durationMinutesTo);
+            return cb.between(root.get("durationMinutes"), durationMinutesFrom, durationMinutesTo);
         };
     }
 }

@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -16,10 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Movie")
-public class Movie implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = -3387516993124229948L;
+public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

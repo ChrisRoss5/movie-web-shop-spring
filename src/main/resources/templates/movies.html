@@ -1,178 +1,194 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="_layout"
->
-  <div layout:fragment="content">
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="_layout"
+        xmlns:sec="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content">
     <div class="text-center mb-3">
-      <a
-        class="btn btn-primary btn-sm"
-        href="/mvc/movieswebshop/getMovieForm.html"
-        sec:authorize="hasRole('ROLE_ADMIN')"
+        <a
+                class="btn btn-primary btn-sm"
+                href="/mvc/movieswebshop/getMovieForm.html"
+                sec:authorize="hasRole('ROLE_ADMIN')"
         >Create</a
-      >
+        >
     </div>
 
     <form
-      action="#"
-      th:action="@{/mvc/movieswebshop/searchMovies.html}"
-      method="post"
-      th:object="${movieSearchForm}"
-      class="flex flex-col flex-wrap gap-3 items-center pb-8"
+            th:action="@{/mvc/movieswebshop/searchMovies.html}"
+            method="post"
+            th:object="${movieSearchForm}"
+            class="flex flex-col flex-wrap gap-3 items-center pb-8"
     >
-      <div class="md:block contents">
-        <label>
-          Title:
-          <input
-            placeholder="input text"
-            class="input input-sm input-bordered"
-            type="text"
-            th:field="*{title}"
-          />
-        </label>
-        <label>
-          Description:
-          <input
-            placeholder="input text"
-            class="input input-sm input-bordered"
-            type="text"
-            th:field="*{description}"
-          />
-        </label>
-      </div>
-      <div class="md:block contents">
-        <label
-          >Genre:
-          <select class="select select-sm select-bordered" th:field="*{genre}">
-            <option th:value="null">Choose</option>
-            <option
-              th:each="movieGenre:${movieGenres}"
-              th:value="${movieGenre}"
-              th:text="${movieGenre}"
-            ></option>
-          </select>
-        </label>
-        <label
-          >Age rating:
-          <select class="select select-sm select-bordered" th:field="*{ageRating}">
-            <option th:value="null">Choose</option>
-            <option
-              th:each="movieAgeRating:${movieAgeRatings}"
-              th:value="${movieAgeRating}"
-              th:text="${movieAgeRating}"
-            ></option>
-          </select>
-        </label>
-      </div>
-      <label class="text-center">
-        Release date:
-        <input
-          class="input input-sm input-bordered"
-          type="date"
-          th:field="*{releaseDateFrom}"
-        />
-        -
-        <input
-          class="input input-sm input-bordered"
-          type="date"
-          th:field="*{releaseDateTo}"
-        />
-      </label>
-      <label class="text-center">
-        Price:
-        <input
-          placeholder="input min price"
-          class="input input-sm input-bordered"
-          type="number"
-          th:field="*{priceFrom}"
-        />
-        -
-        <input
-          placeholder="input max price"
-          class="input input-sm input-bordered"
-          type="number"
-          th:field="*{priceTo}"
-        />
-      </label>
-      <div class="flex flex-wrap gap-3">
-        <div
-          th:if="${!(#strings.isEmpty(movieSearchForm.title) and #strings.isEmpty(movieSearchForm.description)
-                and #strings.isEmpty(movieSearchForm.genre) and #strings.isEmpty(movieSearchForm.ageRating)
-                and #strings.isEmpty(movieSearchForm.releaseDateFrom) and #strings.isEmpty(movieSearchForm.releaseDateTo)
-                and #strings.isEmpty(movieSearchForm.priceFrom) and #strings.isEmpty(movieSearchForm.priceTo))}"
-        >
-          <button
-            type="submit"
-            name="clearFilters"
-            class="btn btn-secondary btn-sm"
-          >
-            Clear Filters
-          </button>
+        <div class="md:block contents">
+            <label>
+                Title:
+                <input
+                        placeholder="input text"
+                        class="input input-sm input-bordered"
+                        type="text"
+                        th:field="*{title}"
+                />
+            </label>
+            <label>
+                Description:
+                <input
+                        placeholder="input text"
+                        class="input input-sm input-bordered"
+                        type="text"
+                        th:field="*{description}"
+                />
+            </label>
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">Search</button>
-      </div>
+        <div class="md:block contents">
+            <label
+            >Genre:
+                <select class="select select-sm select-bordered" th:field="*{genreId}">
+                    <option th:value="null">Choose</option>
+                    <option
+                            th:each="movieGenre:${movieGenres}"
+                            th:value="${movieGenre.getId()}"
+                            th:text="${movieGenre.getName()}"
+                    ></option>
+                </select>
+            </label>
+            <label
+            >Age rating:
+                <select class="select select-sm select-bordered" th:field="*{ageRatingId}">
+                    <option th:value="null">Choose</option>
+                    <option
+                            th:each="movieAgeRating:${movieAgeRatings}"
+                            th:value="${movieAgeRating.getId()}"
+                            th:text="${movieAgeRating.getName()}"
+                    ></option>
+                </select>
+            </label>
+        </div>
+        <label class="text-center">
+            Release date:
+            <input
+                    class="input input-sm input-bordered"
+                    type="date"
+                    th:field="*{releaseDateFrom}"
+            />
+            -
+            <input
+                    class="input input-sm input-bordered"
+                    type="date"
+                    th:field="*{releaseDateTo}"
+            />
+        </label>
+        <label class="text-center">
+            Price:
+            <input
+                    placeholder="input min. price"
+                    class="input input-sm input-bordered"
+                    type="number"
+                    th:field="*{priceFrom}"
+            />
+            -
+            <input
+                    placeholder="input max. price"
+                    class="input input-sm input-bordered"
+                    type="number"
+                    th:field="*{priceTo}"
+            />
+        </label>
+        <label class="text-center">
+            Duration:
+            <input
+                    placeholder="input min. duration"
+                    class="input input-sm input-bordered"
+                    type="number"
+                    th:field="*{durationMinutesFrom}"
+            />
+            -
+            <input
+                    placeholder="input max. duration"
+                    class="input input-sm input-bordered"
+                    type="number"
+                    th:field="*{durationMinutesTo}"
+            />
+        </label>
+        <div class="flex flex-wrap gap-3">
+            <div
+                    th:if="${!(#strings.isEmpty(movieSearchForm.title) and #strings.isEmpty(movieSearchForm.description)
+                and #strings.isEmpty(movieSearchForm.genreId) and #strings.isEmpty(movieSearchForm.ageRatingId)
+                and #strings.isEmpty(movieSearchForm.releaseDateFrom) and #strings.isEmpty(movieSearchForm.releaseDateTo)
+                and #strings.isEmpty(movieSearchForm.priceFrom) and #strings.isEmpty(movieSearchForm.priceTo)
+                and #strings.isEmpty(movieSearchForm.durationMinutesFrom) and #strings.isEmpty(movieSearchForm.durationMinutesTo))}"
+            >
+                <button
+                        type="submit"
+                        name="clearFilters"
+                        class="btn btn-secondary btn-sm"
+                >
+                    Clear Filters
+                </button>
+            </div>
+            <button type="submit" class="btn btn-accent btn-sm">Search</button>
+        </div>
     </form>
 
     <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
-      <div
-        th:each="movie : ${movies}"
-        th:attr="data-id=${movie.id}, data-price=${movie.price}"
-        class="movie card shadow-md rounded-md overflow-hidden"
-      >
-        <img
-          th:src="${movie.thumbnailUrl ?: '/images/no_image_placeholder.png'}"
-          alt="Movie Image"
-          class="w-full aspect-video object-cover"
-        />
-        <div class="p-5 flex flex-col gap-3 h-full">
-          <div class="flex">
-            <span th:text="${movie.title}" class="font-bold text-xl"></span>
-            <a
-              class="btn btn-primary btn-sm ml-auto"
-              th:href="@{/mvc/movieswebshop/getMovieForm.html(id=${movie.id})}"
-              sec:authorize="hasRole('ROLE_ADMIN')"
-              >Edit</a
-            >
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <div
-              class="rounded-md bg-base-300 px-2"
-              th:text="${movie.genre}"
-            ></div>
-            <div
-              class="rounded-md bg-base-300 px-2"
-              th:text="${movie.ageRating}"
-            ></div>
-            <div class="rounded-md bg-base-300 px-2">
-              <span th:text="${movie.durationMinutes}"></span> min
+        <div
+                th:each="movie : ${movies}"
+                th:attr="data-id=${movie.id}, data-price=${movie.price}"
+                class="movie card shadow-md rounded-md overflow-hidden"
+        >
+            <img
+                    th:src="${movie.thumbnailUrl ?: '/images/no_image_placeholder.png'}"
+                    alt="Movie Image"
+                    class="w-full aspect-video object-cover"
+            />
+            <div class="p-5 flex flex-col gap-3 h-full">
+                <div class="flex">
+                    <span th:text="${movie.title}" class="font-bold text-xl"></span>
+                    <a
+                            class="btn btn-primary btn-sm ml-auto"
+                            th:href="@{/mvc/movieswebshop/getMovieForm.html(id=${movie.id})}"
+                            sec:authorize="hasRole('ROLE_ADMIN')"
+                    >Edit</a
+                    >
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <div
+                            class="rounded-md bg-base-300 px-2"
+                            th:text="${movie.genre.getName()}"
+                    ></div>
+                    <div
+                            class="rounded-md bg-base-300 px-2"
+                            th:text="${movie.ageRating.getName()}"
+                    ></div>
+                    <div class="rounded-md bg-base-300 px-2">
+                        <span th:text="${movie.durationMinutes}"></span> min
+                    </div>
+                </div>
+                <div>Release date: <span th:text="${movie.releaseDate}"></span></div>
+                <div
+                        th:text="${movie.description}"
+                        class="overflow-hidden line-clamp-2 hover:line-clamp-none"
+                ></div>
+                <div class="add-to-cart mt-auto flex flex-wrap gap-3 items-center">
+                    <div><span th:text="${movie.price}"></span> €</div>
+                    <div class="ml-auto">
+                        <div
+                                class="add-one btn btn-outline btn-primary"
+                                style="display: none"
+                        >
+                            Add to cart
+                        </div>
+                        <div class="edit-count flex items-center" style="display: none">
+                            <div class="btn btn-outline btn-primary">-</div>
+                            <div class="count text-2xl w-10 text-center">1</div>
+                            <div class="btn btn-outline btn-primary">+</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div>Release date: <span th:text="${movie.releaseDate}"></span></div>
-          <div
-            th:text="${movie.description}"
-            class="overflow-hidden line-clamp-2 hover:line-clamp-none"
-          ></div>
-          <div class="add-to-cart mt-auto flex flex-wrap gap-3 items-center">
-            <div><span th:text="${movie.price}"></span> €</div>
-            <div class="ml-auto">
-              <div
-                class="add-one btn btn-outline btn-primary"
-                style="display: none"
-              >
-                Add to cart
-              </div>
-              <div class="edit-count flex items-center" style="display: none">
-                <div class="btn btn-outline btn-primary">-</div>
-                <div class="count text-2xl w-10 text-center">1</div>
-                <div class="btn btn-outline btn-primary">+</div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
 
     <script src="/scripts/cart.js"></script>
-  </div>
+</div>
 </html>

@@ -1,7 +1,7 @@
 package hr.movies.webshop.movieswebshop.dto;
 
-import hr.movies.webshop.movieswebshop.model.MovieAgeRatingEnum;
-import hr.movies.webshop.movieswebshop.model.MovieGenreEnum;
+import hr.movies.webshop.movieswebshop.model.MovieAgeRating;
+import hr.movies.webshop.movieswebshop.model.MovieGenre;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieDTO {
+public class MovieResponseDTO {
     private Integer id;
     private String title;
     private String description;
@@ -22,6 +22,6 @@ public class MovieDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
     private BigDecimal price;
-    private MovieGenreEnum genre;
-    private MovieAgeRatingEnum ageRating;
+    private MovieGenre genre;
+    private MovieAgeRating ageRating;
 }

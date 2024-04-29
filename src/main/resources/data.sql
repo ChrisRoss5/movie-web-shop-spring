@@ -1,22 +1,10 @@
 -- Insert default movie genres
 INSERT INTO MovieGenre (name)
-VALUES ('ACTION');
-INSERT INTO MovieGenre (name)
-VALUES ('COMEDY');
-INSERT INTO MovieGenre (name)
-VALUES ('DRAMA');
-INSERT INTO MovieGenre (name)
-VALUES ('HORROR');
+VALUES ('ACTION'), ('COMEDY'), ('DRAMA'), ('SCIENCE_FICTION'), ('HORROR'), ('ROMANCE'), ('THRILLER'), ('FANTASY');
 
 -- Insert default movie age ratings
 INSERT INTO MovieAgeRating (name)
-VALUES ('G');
-INSERT INTO MovieAgeRating (name)
-VALUES ('PG');
-INSERT INTO MovieAgeRating (name)
-VALUES ('PG_13');
-INSERT INTO MovieAgeRating (name)
-VALUES ('R');
+VALUES ('G'), ('PG'), ('PG_13'), ('R'), ('NC_17');
 
 -- Insert default movies
 INSERT INTO Movie (genreId, ageRatingId, title, description, thumbnailUrl, durationMinutes, releaseDate, price)
@@ -39,18 +27,8 @@ VALUES ('ro', '$2a$10$OI1MEzYoEwX.1szvETEsrOIt09N.V9x/GJ9BKiaCDuqGxlCRtRgVK'); -
 
 -- Insert default roles
 INSERT INTO Role(name)
-VALUES ('USER');
-INSERT INTO Role(name)
-VALUES ('ADMIN');
-INSERT INTO Role(name)
-VALUES ('READ_ONLY');
+VALUES ('USER'), ('ADMIN'), ('READ_ONLY');
 
 -- Assign roles to users
 INSERT INTO UserRole(userId, roleId)
-VALUES (1, 1);
-INSERT INTO UserRole(userId, roleId)
-VALUES (2, 1);
-INSERT INTO UserRole(userId, roleId)
-VALUES (2, 2);
-INSERT INTO UserRole(userId, roleId)
-VALUES (3, 3);
+VALUES (1, 1), (2, 1), (2, 2), (3, 3);

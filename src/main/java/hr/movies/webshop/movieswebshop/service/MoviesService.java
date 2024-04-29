@@ -1,16 +1,18 @@
 package hr.movies.webshop.movieswebshop.service;
 
-import hr.movies.webshop.movieswebshop.dto.MovieDTO;
+import hr.movies.webshop.movieswebshop.dto.MovieRequestDTO;
+import hr.movies.webshop.movieswebshop.dto.MovieResponseDTO;
 import hr.movies.webshop.movieswebshop.model.MovieSearchForm;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface MoviesService {
-    List<MovieDTO> getMovies();
-    Optional<MovieDTO> getMovie(Integer id);
-    List<MovieDTO> filterMovies(MovieSearchForm movieSearchForm);
-    MovieDTO createMovie(MovieDTO newMovie);
-    void updateMovie(MovieDTO movieDTO);
+    List<MovieResponseDTO> getMovies();
+    Optional<MovieResponseDTO> getMovieResponseDTO(Integer id);
+    Optional<MovieRequestDTO> getMovieRequestDTO(Integer id);
+    List<MovieResponseDTO> filterMovies(MovieSearchForm movieSearchForm);
+    void createMovie(MovieRequestDTO newMovieRequestDTO);
+    void updateMovie(MovieRequestDTO movieRequestDTO);
     void deleteMovie(Integer id);
 }

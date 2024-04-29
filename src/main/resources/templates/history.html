@@ -5,6 +5,53 @@
         layout:decorate="_layout"
 >
 <div layout:fragment="content">
+    <form
+            class="flex flex-wrap items-center justify-center gap-3 pb-3"
+            th:action="@{/mvc/movieswebshop/searchHistory.html}"
+            th:object="${historySearchForm}"
+            method="post"
+    >
+        <label>
+            User:
+            <select class="select select-sm select-bordered" th:field="*{userId}">
+                <option th:value="null">Choose</option>
+                <option
+                        th:each="user:${users}"
+                        th:value="${user.getId()}"
+                        th:text="${user.getUsername()}"
+                ></option>
+            </select>
+        </label>
+        Date:
+        <input
+                class="input input-sm input-bordered"
+                type="date"
+                th:field="*{purchaseDateFrom}"
+        />
+        -
+        <input
+                class="input input-sm input-bordered"
+                type="date"
+                th:field="*{purchaseDateTo}"
+        />
+        <div class="flex flex-wrap gap-3">
+            <div
+                    th:if="${!(#strings.isEmpty(historySearchForm.userId)
+                and #strings.isEmpty(historySearchForm.purchaseDateFrom)
+                and #strings.isEmpty(historySearchForm.purchaseDateTo))}"
+            >
+                <button
+                        type="submit"
+                        name="clearFilters"
+                        class="btn btn-secondary btn-sm"
+                >
+                    Clear Filters
+                </button>
+            </div>
+            <button type="submit" class="btn btn-accent btn-sm">Search</button>
+        </div>
+    </form>
+
     <div
             th:if="${purchases.isEmpty()}"
             role="alert"
@@ -29,9 +76,10 @@
     <div th:unless="${purchases.isEmpty()}" class="flex flex-col gap-3">
         <div th:each="purchase, iterStat : ${purchases.reversed()}"
              class="collapse collapse-arrow shadow-md rounded-md">
-            <input type="radio" name="my-accordion-2"  th:checked="${iterStat.index == 0}"/>
-            <div class="collapse-title text-xl font-medium flex flex-wrap gap-3">
-                <div><span class="font-bold" th:text="${purchase.purchaseDate}"></span></div>
+            <input type="radio" name="my-accordion-2" th:checked="${iterStat.index == 0}"/>
+            <div class="collapse-title flex flex-wrap gap-3">
+                <div>User: <span class="font-bold" th:text="${purchase.user.username}"></span></div>
+                <div>Date: <span class="font-bold" th:text="${purchase.purchaseDate}"></span></div>
                 <div>Movies purchased: <span class="font-bold" th:text="${purchase.purchaseMovies.size()}"></span></div>
                 <div>Total price: <span class="font-bold" th:text="${purchase.totalAmount}"></span> €</div>
                 <div>Payment method: <span class="font-bold" th:text="${purchase.paymentMethod}"></span></div>
@@ -60,33 +108,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
-        <!--<div class="flex flex-wrap gap-3 justify-end mt-3">
-            <div class="flex-1 basis-full text-right text-2xl font-bold">
-                Total: <span id="final-price" class="font-bold"></span> €
-            </div>
-            <div id="empty-cart" class="btn btn-error btn-outline">
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        class="inline-block w-4 h-4 stroke-current"
-                >
-                    <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                </svg>
-                Empty cart
-            </div>
-            <div id="pay-with-cash" class="btn btn-accent">Pay with CASH</div>
-            <div id="pay-with-paypal" class="btn btn-primary">Pay with PAYPAL</div>
-        </div>-->
     </div>
 </div>
 </html>

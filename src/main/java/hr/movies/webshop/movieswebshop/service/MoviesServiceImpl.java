@@ -1,6 +1,7 @@
 package hr.movies.webshop.movieswebshop.service;
 
-import hr.movies.webshop.movieswebshop.dto.MovieDTO;
+import hr.movies.webshop.movieswebshop.dto.MovieRequestDTO;
+import hr.movies.webshop.movieswebshop.dto.MovieResponseDTO;
 import hr.movies.webshop.movieswebshop.model.*;
 import hr.movies.webshop.movieswebshop.repository.MovieRepository;
 import lombok.AllArgsConstructor;
@@ -17,45 +18,51 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @AllArgsConstructor
 public class MoviesServiceImpl implements MoviesService {
 
-    // private MoviesRepository jdbcMoviesRepository;
     private MovieRepository jpaMoviesRepository;
 
     @Override
-    public List<MovieDTO> getMovies() {
+    public List<MovieResponseDTO> getMovies() {
         return jpaMoviesRepository.findAll().stream()
-                .map(this::convertMovieToMovieDTO)
-                .toList();
+                .map(this::convertMovieToMovieResponseDTO)
+                .toList().reversed();
     }
 
     @Override
-    public Optional<MovieDTO> getMovie(Integer id) {
+    public Optional<MovieResponseDTO> getMovieResponseDTO(Integer id) {
         Optional<Movie> movieOptional = jpaMoviesRepository.findById(id);
-        return movieOptional.map(this::convertMovieToMovieDTO);
+        return movieOptional.map(this::convertMovieToMovieResponseDTO);
     }
 
     @Override
-    public MovieDTO createMovie(MovieDTO newMovie) {
-        return convertMovieToMovieDTO(jpaMoviesRepository.save(convertMovieDtoToMovie(newMovie)));
+    public Optional<MovieRequestDTO> getMovieRequestDTO(Integer id) {
+        Optional<Movie> movieOptional = jpaMoviesRepository.findById(id);
+        return movieOptional.map(this::convertMovieToMovieRequestDTO);
     }
 
     @Override
-    public void updateMovie(MovieDTO movieDTO) {
-        jpaMoviesRepository.save(convertMovieDtoToMovie(movieDTO));
-    }
-
-    @Override
-    public List<MovieDTO> filterMovies(MovieSearchForm movieSearchForm) {
+    public List<MovieResponseDTO> filterMovies(MovieSearchForm movieSearchForm) {
         Specification<Movie> spec = where(includesTitle(movieSearchForm.getTitle()))
                 .and(includesDescription(movieSearchForm.getDescription()))
-                .and(hasGenre(movieSearchForm.getGenre()))
-                .and(hasAgeRating(movieSearchForm.getAgeRating()))
+                .and(hasGenre(movieSearchForm.getGenreId()))
+                .and(hasAgeRating(movieSearchForm.getAgeRatingId()))
                 .and(releasedAfter(movieSearchForm.getReleaseDateFrom()))
                 .and(releasedBefore(movieSearchForm.getReleaseDateTo()))
-                .and(priceBetween(movieSearchForm.getPriceFrom(), movieSearchForm.getPriceTo()));
+                .and(priceBetween(movieSearchForm.getPriceFrom(), movieSearchForm.getPriceTo()))
+                .and(durationBetween(movieSearchForm.getDurationMinutesFrom(), movieSearchForm.getDurationMinutesTo()));
         return jpaMoviesRepository.findAll(spec)
                 .stream()
-                .map(this::convertMovieToMovieDTO)
-                .toList();
+                .map(this::convertMovieToMovieResponseDTO)
+                .toList().reversed();
+    }
+
+    @Override
+    public void createMovie(MovieRequestDTO newMovieRequestDTO) {
+        jpaMoviesRepository.save(convertMovieRequestDtoToMovie(newMovieRequestDTO));
+    }
+
+    @Override
+    public void updateMovie(MovieRequestDTO movieRequestDTO) {
+        jpaMoviesRepository.save(convertMovieRequestDtoToMovie(movieRequestDTO));
     }
 
     @Override
@@ -63,27 +70,26 @@ public class MoviesServiceImpl implements MoviesService {
         jpaMoviesRepository.deleteById(id);
     }
 
-    private Movie convertMovieDtoToMovie(MovieDTO movieDTO) {
+    private Movie convertMovieRequestDtoToMovie(MovieRequestDTO movieRequestDTO) {
         MovieGenre movieGenre = new MovieGenre();
-        movieGenre.setName(movieDTO.getGenre().name());
+        movieGenre.setId(movieRequestDTO.getGenreId());
         MovieAgeRating movieAgeRating = new MovieAgeRating();
-        movieAgeRating.setName(movieDTO.getAgeRating().name());
-
+        movieAgeRating.setId(movieRequestDTO.getAgeRatingId());
         return new Movie(
-                null,
-                movieDTO.getTitle(),
-                movieDTO.getDescription(),
-                movieDTO.getThumbnailUrl(),
-                movieDTO.getDurationMinutes(),
-                movieDTO.getReleaseDate(),
-                movieDTO.getPrice(),
+                movieRequestDTO.getId(),
+                movieRequestDTO.getTitle(),
+                movieRequestDTO.getDescription(),
+                movieRequestDTO.getThumbnailUrl(),
+                movieRequestDTO.getDurationMinutes(),
+                movieRequestDTO.getReleaseDate(),
+                movieRequestDTO.getPrice(),
                 movieGenre,
                 movieAgeRating
         );
     }
 
-    private MovieDTO convertMovieToMovieDTO(Movie movie) {
-        return new MovieDTO(
+    private MovieResponseDTO convertMovieToMovieResponseDTO(Movie movie) {
+        return new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
                 movie.getDescription(),
@@ -91,8 +97,22 @@ public class MoviesServiceImpl implements MoviesService {
                 movie.getDurationMinutes(),
                 movie.getReleaseDate(),
                 movie.getPrice(),
-                MovieGenreEnum.valueOf(movie.getGenre().getName()),
-                MovieAgeRatingEnum.valueOf(movie.getAgeRating().getName())
+                movie.getGenre(),
+                movie.getAgeRating()
+        );
+    }
+
+    private MovieRequestDTO convertMovieToMovieRequestDTO(Movie movie) {
+        return new MovieRequestDTO(
+                movie.getId(),
+                movie.getTitle(),
+                movie.getDescription(),
+                movie.getThumbnailUrl(),
+                movie.getDurationMinutes(),
+                movie.getReleaseDate(),
+                movie.getPrice(),
+                movie.getGenre().getId(),
+                movie.getAgeRating().getId()
         );
     }
 }

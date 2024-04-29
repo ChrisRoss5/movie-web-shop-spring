@@ -1,11 +1,9 @@
 package hr.movies.webshop.movieswebshop.controller.rest;
 
 import hr.movies.webshop.movieswebshop.dto.CartDTO;
-import hr.movies.webshop.movieswebshop.dto.MovieDTO;
+import hr.movies.webshop.movieswebshop.dto.MovieRequestDTO;
 import hr.movies.webshop.movieswebshop.model.User;
 import hr.movies.webshop.movieswebshop.repository.UserRepository;
-import hr.movies.webshop.movieswebshop.service.MoviesService;
-import hr.movies.webshop.movieswebshop.service.MyUserDetailsService;
 import hr.movies.webshop.movieswebshop.service.PurchaseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +19,7 @@ public class RestCartController {
     private UserRepository userRepository;
 
     @PostMapping("/purchase")
-    public ResponseEntity<MovieDTO> purchaseMovie(@RequestBody CartDTO cartDTO, Authentication authentication) {
+    public ResponseEntity<MovieRequestDTO> purchaseMovie(@RequestBody CartDTO cartDTO, Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName());
         boolean success = purchaseService.purchase(cartDTO, user);
         if (success)

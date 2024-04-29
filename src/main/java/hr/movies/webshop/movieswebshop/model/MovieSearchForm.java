@@ -14,12 +14,14 @@ import java.time.LocalDate;
 public class MovieSearchForm {
     private String title;
     private String description;
-    private String genre;
-    private String ageRating;
+    private Integer genreId;
+    private Integer ageRatingId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDateFrom;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDateTo;
     private BigDecimal priceFrom;
     private BigDecimal priceTo;
+    private Integer durationMinutesFrom;
+    private Integer durationMinutesTo;
 }

@@ -1,8 +1,6 @@
 package hr.movies.webshop.movieswebshop.event;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
