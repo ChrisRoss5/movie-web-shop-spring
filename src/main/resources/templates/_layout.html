@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<!--
+Tutorials followed:
+https://maciejwalkowiak.com/blog/spring-boot-thymeleaf-tailwindcss/
+https://www.kindsonthegenius.com/how-to-use-layout-page-in-spring-boot-with-thymeleaf-master-and-content-page/
+-->
+
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  data-theme="light"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Movies Web Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link th:href="@{/main.css}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="flex flex-col gap-3 mx-auto mt-4 mb-8 max-w-screen-lg card shadow-xl p-5"
+  >
+    <div class="flex flex-wrap justify-center">
+      <div class="pr-3 mr-3 border-gray-300 border-r-2">
+        Logged user: <span sec:authentication="name"></span>
+      </div>
+      <div class="pr-3 mr-3 border-gray-300 border-r-2">
+        Roles: <span sec:authentication="principal.authorities"></span>
+      </div>
+      <a class="link" th:href="@{/logout}">Logout</a>
+    </div>
+
+    <h1 class="text-2xl text-center font-bold tracking-widest">
+      MOVIES WEB SHOP
+    </h1>
+
+    <div class="navbar gap-3 justify-center flex-wrap">
+      <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getMovies.html"
+        >Movies</a
+      >
+      <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getGenres.html"
+        >Genres</a
+      >
+      <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getCart.html"
+        >My Cart</a
+      >
+      <a
+        class="btn btn-ghost text-xl"
+        href="/mvc/movieswebshop/getHistory.html"
+        sec:authorize="isAuthenticated()"
+      >
+        <span sec:authorize="!hasRole('ROLE_ADMIN')">My </span>
+        History
+      </a>
+    </div>
+
+    <div layout:fragment="content"></div>
+
+    <script>
+      const linkEls = document.querySelectorAll("a");
+      linkEls.forEach((linkEl) => {
+        if (window.location.href.startsWith(linkEl.href)) {
+          linkEl.classList.add("bg-base-300");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="_layout"
+>
+  <div layout:fragment="content">
+    <div
+      th:text="${movie.id == null ? 'Create a movie' : 'Edit movie'}"
+      class="text-2xl font-bold mb-3"
+    ></div>
+    <form
+      class="flex flex-col gap-3"
+      th:action="'/mvc/movieswebshop/' + (${movie.id == null ? 'createMovieForm.html' : 'updateMovieForm.html'})"
+      th:object="${movie}"
+      method="post"
+    >
+      <input
+        th:if="${movie.id != null}"
+        class="input input-sm input-bordered"
+        type="hidden"
+        th:field="*{id}"
+      />
+      <label class="grid">
+        Title:
+        <input
+          class="input input-sm input-bordered"
+          type="text"
+          th:field="*{title}"
+        />
+      </label>
+      <label class="grid">
+        Description:
+        <textarea
+          class="textarea textarea-bordered"
+          type="text"
+          th:field="*{description}"
+        ></textarea>
+      </label>
+      <label class="grid">
+        Genre:
+        <select class="select select-sm select-bordered" th:field="*{genre}">
+          <option th:value="null">Choose</option>
+          <option
+            th:each="movieGenre:${movieGenres}"
+            th:value="${movieGenre}"
+            th:text="${movieGenre}"
+          ></option>
+        </select>
+      </label>
+      <label class="grid">
+        Age rating:
+        <select
+          class="select select-sm select-bordered"
+          th:field="*{ageRating}"
+        >
+          <option th:value="null">Choose</option>
+          <option
+            th:each="movieAgeRating:${movieAgeRatings}"
+            th:value="${movieAgeRating}"
+            th:text="${movieAgeRating}"
+          ></option>
+        </select>
+      </label>
+      <label class="grid">
+        Release date:
+        <input
+          class="input input-sm input-bordered"
+          type="date"
+          th:field="*{releaseDate}"
+        />
+      </label>
+      <label class="grid">
+        Price:
+        <input
+          class="input input-sm input-bordered"
+          type="number"
+          th:field="*{price}"
+        />
+      </label>
+      <div class="mt-3">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          th:text="${movie.id == null ? 'Create' : 'Save changes'}"
+        ></button>
+        <button
+          type="reset"
+          class="btn"
+          th:text="${movie.id == null ? 'Clear' : 'Reset'}"
+        ></button>
+      </div>
+    </form>
+    <form
+      th:if="${movie.id != null}"
+      action="/mvc/movieswebshop/deleteMovieForm.html"
+      th:object="${movie}"
+      method="post"
+    >
+      <input type="hidden" th:field="*{id}" />
+      <button type="submit" class="btn btn-outline btn-error mt-3">
+        Delete
+      </button>
+    </form>
+  </div>
+</html>
