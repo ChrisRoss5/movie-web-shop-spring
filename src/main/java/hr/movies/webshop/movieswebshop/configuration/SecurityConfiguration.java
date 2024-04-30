@@ -39,8 +39,8 @@ public class SecurityConfiguration {
                         .hasAnyRole("USER", "ADMIN")
                         .anyRequest().permitAll()
                 )
-                .formLogin(form -> form.defaultSuccessUrl("/mvc/movieswebshop/getMovies.html"))
-                .logout(LogoutConfigurer::permitAll);
+                .formLogin(form -> form.defaultSuccessUrl("/"))
+                .logout(logout -> logout.logoutSuccessUrl("/"));
         return http.build();
     }
 

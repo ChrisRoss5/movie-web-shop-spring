@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="_layout">
-
-<div layout:fragment="content">
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="_layout"
+>
+  <div layout:fragment="content">
     <table class="table table-zebra">
-        <thead>
+      <thead>
         <tr>
-            <th>Id</th>
-            <th>Local DateTime</th>
-            <th>User</th>
-            <th>IP Address</th>
-            <th>Message</th>
+          <th>Id</th>
+          <th>Local DateTime</th>
+          <th>User</th>
+          <th>IP Address</th>
+          <th>Message</th>
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         <tr th:each="log : ${logs}">
-            <td th:text="${log.getId()}"></td>
-            <td th:text="${log.getLocalDateTime()}"></td>
-            <td th:text="${log.user.getUsername()}"></td>
-            <td th:text="${log.getIpAddr()}"></td>
-            <td th:text="${log.getMessage()}"></td>
+          <td th:text="${log.getId()}"></td>
+          <td th:text="${log.getLocalDateTime()}"></td>
+          <td th:text="${log.user.getUsername()}"></td>
+          <td th:text="${log.getIpAddr()}"></td>
+          <td th:text="${log.getMessage()}"></td>
         </tr>
-        </tbody>
+      </tbody>
     </table>
-</div>
+  </div>
+</html>

@@ -30,7 +30,6 @@ public class HttpSessionMoviesWebShopListener implements HttpSessionListener {
         String ipAddr = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest().getRemoteAddr();
         System.out.println("IP address: " + ipAddr);
-        System.out.println("User: " + SecurityContextHolder.getContext().getAuthentication());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(authentication.getName());
         logRepository.save(new Log(null, user, ipAddr, "New session created", LocalDateTime.now()));

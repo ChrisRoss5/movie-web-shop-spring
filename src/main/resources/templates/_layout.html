@@ -4,105 +4,130 @@
 Tutorials followed:
 https://maciejwalkowiak.com/blog/spring-boot-thymeleaf-tailwindcss/
 https://www.kindsonthegenius.com/how-to-use-layout-page-in-spring-boot-with-thymeleaf-master-and-content-page/
+https://codelabs.developers.google.com/codelabs/cloud-app-engine-springboot
 -->
 
 <html
-        lang="en"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        data-theme="light"
-        xmlns:sec="http://www.w3.org/1999/xhtml"
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  data-theme="light"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
 >
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <title>Movies Web Shop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link th:href="@{/main.css}" rel="stylesheet"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link th:href="@{/main.css}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-            href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
-            rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
     />
     <script>
-        const theme = localStorage.getItem("theme") || "light";
-        document.documentElement.setAttribute("data-theme", theme);
+      const theme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", theme);
     </script>
-</head>
+  </head>
 
-<body
-        class="flex flex-col gap-3 mx-auto mt-4 mb-8 max-w-screen-lg card shadow-xl p-5"
->
-<div class="flex flex-wrap justify-center items-center">
-    <div sec:authorize="!isAuthenticated()" class="pr-3 mr-3 border-base-300 border-r-2">
+  <body
+    class="flex flex-col gap-3 mx-auto mt-4 mb-8 max-w-screen-lg card shadow-xl p-5"
+  >
+    <div class="flex flex-wrap justify-center items-center">
+      <div
+        sec:authorize="!isAuthenticated()"
+        class="pr-3 mr-3 border-base-300 border-r-2"
+      >
         Anonymous
-    </div>
-    <th:block sec:authorize="isAuthenticated()">
+      </div>
+      <th:block sec:authorize="isAuthenticated()">
         <div class="pr-3 mr-3 border-base-300 border-r-2">
-            Logged user:
-            <th:block sec:authentication="name"></th:block>
+          Logged user:
+          <th:block sec:authentication="name"></th:block>
         </div>
         <div class="pr-3 mr-3 border-base-300 border-r-2">
-            Roles:
-            <th:block sec:authentication="principal.authorities"></th:block>
+          Roles:
+          <th:block sec:authentication="principal.authorities"></th:block>
         </div>
-    </th:block>
-    <div class="pr-3 mr-3 border-base-300 border-r-2">
-        Theme: <select id="theme-selector" class="select select-xs select-bordered w-32"></select>
+      </th:block>
+      <div class="pr-3 mr-3 border-base-300 border-r-2">
+        Theme:
+        <select
+          id="theme-selector"
+          class="select select-xs select-bordered w-32"
+        ></select>
+      </div>
+      <a sec:authorize="!isAuthenticated()" class="link" th:href="@{/login}"
+        >Login</a
+      >
+      <a sec:authorize="isAuthenticated()" class="link" th:href="@{/logout}"
+        >Logout</a
+      >
     </div>
-    <a class="link" th:href="@{/logout}">Logout</a>
-</div>
 
-<h1 class="text-2xl text-center font-bold tracking-widest">
-    MOVIES WEB SHOP
-</h1>
+    <h1 class="text-2xl text-center font-bold tracking-widest">
+      MOVIES WEB SHOP
+    </h1>
 
-<div class="navbar gap-3 justify-center flex-wrap">
-    <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getMovies.html"
-    >Movies</a
-    >
-    <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getMovieGenres.html" sec:authorize="hasRole('ROLE_ADMIN')"
-    >Genres</a>
-    <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getCart.html"
-    >My Cart</a>
-    <a
-            class="btn btn-ghost text-xl"
-            href="/mvc/movieswebshop/getHistory.html"
-            sec:authorize="isAuthenticated()"
-    >
+    <div class="navbar gap-3 justify-center flex-wrap">
+      <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getMovies.html"
+        >Movies</a
+      >
+      <a
+        class="btn btn-ghost text-xl"
+        href="/mvc/movieswebshop/getMovieGenres.html"
+        sec:authorize="hasRole('ROLE_ADMIN')"
+        >Genres</a
+      >
+      <a class="btn btn-ghost text-xl" href="/mvc/movieswebshop/getCart.html"
+        >My Cart</a
+      >
+      <a
+        class="btn btn-ghost text-xl"
+        href="/mvc/movieswebshop/getHistory.html"
+        sec:authorize="isAuthenticated()"
+      >
         <th:block sec:authorize="!hasRole('ROLE_ADMIN')">My</th:block>
         History
-    </a>
-    <a
-            class="btn btn-ghost text-xl"
-            href="/mvc/movieswebshop/getLogs.html"
-            sec:authorize="isAuthenticated()"
-    >
+      </a>
+      <a
+        class="btn btn-ghost text-xl"
+        href="/mvc/movieswebshop/getLogs.html"
+        sec:authorize="hasRole('ROLE_ADMIN')"
+      >
         Logs
-    </a>
-    <a
-            class="btn btn-ghost text-xl"
-            href="/h2-console"
-            sec:authorize="isAuthenticated()"
-            target="_blank"
-    >
+      </a>
+      <a
+        class="btn btn-ghost text-xl"
+        href="/h2-console"
+        sec:authorize="hasRole('ROLE_ADMIN')"
+        target="_blank"
+      >
         H2 Console
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
-            <path d="M 5 3 C 3.9069372 3 3 3.9069372 3 5 L 3 19 C 3 20.093063 3.9069372 21 5 21 L 19 21 C 20.093063 21 21 20.093063 21 19 L 21 12 L 19 12 L 19 19 L 5 19 L 5 5 L 12 5 L 12 3 L 5 3 z M 14 3 L 14 5 L 17.585938 5 L 8.2929688 14.292969 L 9.7070312 15.707031 L 19 6.4140625 L 19 10 L 21 10 L 21 3 L 14 3 z"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24px"
+          height="24px"
+        >
+          <path
+            d="M 5 3 C 3.9069372 3 3 3.9069372 3 5 L 3 19 C 3 20.093063 3.9069372 21 5 21 L 19 21 C 20.093063 21 21 20.093063 21 19 L 21 12 L 19 12 L 19 19 L 5 19 L 5 5 L 12 5 L 12 3 L 5 3 z M 14 3 L 14 5 L 17.585938 5 L 8.2929688 14.292969 L 9.7070312 15.707031 L 19 6.4140625 L 19 10 L 21 10 L 21 3 L 14 3 z"
+          />
         </svg>
-    </a>
-</div>
+      </a>
+    </div>
 
-<div layout:fragment="content"></div>
+    <div layout:fragment="content"></div>
 
-<script>
-    const linkEls = document.querySelectorAll("a");
-    linkEls.forEach((linkEl) => {
+    <script>
+      const linkEls = document.querySelectorAll("a");
+      linkEls.forEach((linkEl) => {
         if (window.location.href.startsWith(linkEl.href)) {
-            linkEl.classList.add("bg-base-300");
+          linkEl.classList.add("bg-base-300");
         }
-    });
+      });
 
-    const themes = [
+      const themes = [
         "light",
         "dark",
         "cupcake",
@@ -135,20 +160,20 @@ https://www.kindsonthegenius.com/how-to-use-layout-page-in-spring-boot-with-thym
         "dim",
         "nord",
         "sunset",
-    ];
-    const themeSelectorEl = document.getElementById("theme-selector");
-    themes.forEach((theme) => {
+      ];
+      const themeSelectorEl = document.getElementById("theme-selector");
+      themes.forEach((theme) => {
         const optionEl = document.createElement("option");
         optionEl.value = theme;
         optionEl.textContent = theme;
         themeSelectorEl.appendChild(optionEl);
-    });
-    themeSelectorEl.value = localStorage.getItem("theme") || "light";
-    themeSelectorEl.onchange = () => {
+      });
+      themeSelectorEl.value = localStorage.getItem("theme") || "light";
+      themeSelectorEl.onchange = () => {
         const selectedTheme = themeSelectorEl.value;
         document.documentElement.setAttribute("data-theme", selectedTheme);
         localStorage.setItem("theme", selectedTheme);
-    };
-</script>
-</body>
+      };
+    </script>
+  </body>
 </html>

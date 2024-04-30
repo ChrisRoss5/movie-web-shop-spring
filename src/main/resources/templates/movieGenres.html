@@ -1,86 +1,71 @@
 <!DOCTYPE html>
 <html
-        lang="en"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="_layout"
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="_layout"
 >
-<div layout:fragment="content">
-    <div
-            th:if="${errorMessage != null}"
-            role="alert" class="alert alert-error">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-             viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-        <span>The form is invalid.</span>
-    </div>
-
-    <div class="flex pb-3 mb-3 border-b-2 border-b-base-300 justify-center mt-2">
-        <form
-                class="flex gap-3"
-                action="/mvc/movieswebshop/createMovieGenre.html"
-                th:object="${movieGenre}"
-                method="post"
-        >
-            <label>
-                Name:
-                <input
-                        class="input input-bordered"
-                        type="text"
-                        th:field="*{name}"
-                />
-            </label>
-            <button
-                    type="reset"
-                    class="btn"
-            >Clear
-            </button>
-            <button
-                    type="submit"
-                    class="btn btn-primary"
-            >Create
-            </button>
-        </form>
+  <div layout:fragment="content">
+    <div th:if="${errorMessage != null}" role="alert" class="alert alert-error">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-current shrink-0 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <span>The form is invalid.</span>
     </div>
 
     <div
-            class="flex gap-3 justify-center mt-2"
-            th:each="movieGenre : ${movieGenres}"
+      class="flex pb-3 mb-3 border-b-2 border-b-base-300 justify-center mt-2"
     >
-        <form class="flex gap-3"
-              action="/mvc/movieswebshop/updateMovieGenre.html"
-              method="post"
-        >
-            <input type="hidden" th:name="id" th:value="${movieGenre.getId()}"/>
-            <label>
-                Name:
-                <input
-                        class="input input-bordered"
-                        type="text"
-                        th:name="name"
-                        th:value="${movieGenre.getName()}"
-                />
-            </label>
-            <button type="reset"
-                    class="btn"
-            >Reset
-            </button>
-            <button
-                    type="submit"
-                    class="btn btn-primary"
-            >Update
-            </button>
-        </form>
-        <form
-                action="/mvc/movieswebshop/deleteMovieGenre.html"
-                method="post"
-        >
-            <input type="hidden" th:name="id" th:value="${movieGenre.getId()}"/>
-            <button type="submit" class="btn btn-outline btn-error">
-                Delete
-            </button>
-        </form>
+      <form
+        class="flex gap-3"
+        action="/mvc/movieswebshop/createMovieGenre.html"
+        th:object="${movieGenre}"
+        method="post"
+      >
+        <label>
+          Name:
+          <input class="input input-bordered" type="text" th:field="*{name}" />
+        </label>
+        <button type="reset" class="btn">Clear</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </form>
     </div>
-</div>
+
+    <div
+      class="flex gap-3 justify-center mt-2"
+      th:each="movieGenre : ${movieGenres}"
+    >
+      <form
+        class="flex gap-3"
+        action="/mvc/movieswebshop/updateMovieGenre.html"
+        method="post"
+      >
+        <input type="hidden" th:name="id" th:value="${movieGenre.getId()}" />
+        <label>
+          Name:
+          <input
+            class="input input-bordered"
+            type="text"
+            th:name="name"
+            th:value="${movieGenre.getName()}"
+          />
+        </label>
+        <button type="reset" class="btn">Reset</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+      <form action="/mvc/movieswebshop/deleteMovieGenre.html" method="post">
+        <input type="hidden" th:name="id" th:value="${movieGenre.getId()}" />
+        <button type="submit" class="btn btn-outline btn-error">Delete</button>
+      </form>
+    </div>
+  </div>
 </html>
