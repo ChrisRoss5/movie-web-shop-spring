@@ -5,7 +5,7 @@ import hr.movies.webshop.movieswebshop.model.MovieGenre;
 
 import java.util.List;
 
-public interface MovieGenresService {
+public interface MovieGenreService {
     List<MovieGenre> getMovieGenres();
     void createMovieGenre(MovieGenre newMovieGenre);
     void updateMovieGenre(MovieGenre genre);

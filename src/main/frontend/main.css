@@ -7,3 +7,14 @@
     font-weight: 400;
     font-style: normal;
 }
+
+html {
+    @apply min-h-screen;
+    background: linear-gradient(to bottom, oklch(var(--p) / 25%), transparent),
+    radial-gradient(ellipse at bottom left, oklch(var(--s) / 25%), transparent),
+    radial-gradient(ellipse at bottom right, oklch(var(--a) / 25%), transparent);
+}
+
+body {
+    background: oklch(var(--b1) / 55%);
+}

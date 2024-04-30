@@ -16,7 +16,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @AllArgsConstructor
-public class MoviesServiceImpl implements MoviesService {
+public class MovieServiceImpl implements MovieService {
 
     private MovieRepository jpaMoviesRepository;
 

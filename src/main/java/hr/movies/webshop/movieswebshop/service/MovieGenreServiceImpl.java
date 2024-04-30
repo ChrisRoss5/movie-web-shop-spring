@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class MovieGenresServiceImpl implements MovieGenresService {
+public class MovieGenreServiceImpl implements MovieGenreService {
 
     private MovieGenreRepository jpaMovieGenresRepository;
 

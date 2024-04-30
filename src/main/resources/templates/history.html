@@ -3,9 +3,10 @@
         lang="en"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="_layout"
->
+        xmlns:sec="http://www.w3.org/1999/xhtml">
 <div layout:fragment="content">
     <form
+            sec:authorize="hasRole('ROLE_ADMIN')"
             class="flex flex-wrap items-center justify-center gap-3 pb-3"
             th:action="@{/mvc/movieswebshop/searchHistory.html}"
             th:object="${historySearchForm}"

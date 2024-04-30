@@ -60,7 +60,8 @@ function prepareMovies() {
     editCountEl.querySelectorAll(".btn").forEach((btn) => {
       btn.onclick = () => {
         PurchaseMovie.quantity += btn.textContent === "+" ? 1 : -1;
-        if (PurchaseMovie.quantity === 0) cart.splice(cart.indexOf(PurchaseMovie), 1);
+        if (PurchaseMovie.quantity === 0)
+          cart.splice(cart.indexOf(PurchaseMovie), 1);
         updateCart(cart);
       };
     });

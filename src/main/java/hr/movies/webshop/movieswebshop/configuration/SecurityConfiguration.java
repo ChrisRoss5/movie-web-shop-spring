@@ -20,16 +20,24 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/login").anonymous()
-                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(
-                                "/mvc/movieswebshop/searchMovies.html",
-                                "/mvc/movieswebshop/getMovies.html",
-                                "/mvc/movieswebshop/getOneMovie.html")
+                                "/mvc/movieswebshop/createMovie.html",
+                                "/mvc/movieswebshop/updateMovie.html",
+                                "/mvc/movieswebshop/deleteMovie.html",
+                                "/mvc/movieswebshop/createMovieGenre.html",
+                                "/mvc/movieswebshop/updateMovieGenre.html",
+                                "/mvc/movieswebshop/deleteMovieGenre.html",
+                                "/mvc/movieswebshop/getLogs.html",
+                                "/mvc/movieswebshop/searchHistory.html",
+                                "/h2-console/**"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(
+                                "/rest/movieswebshop/purchase",
+                                "/mvc/movieswebshop/getPurchase.html",
+                                "/mvc/movieswebshop/getHistory.html"
+                        )
                         .hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/mvc/movieswebshop/saveNewMovie.html")
-                        .hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.defaultSuccessUrl("/mvc/movieswebshop/getMovies.html"))
                 .logout(LogoutConfigurer::permitAll);

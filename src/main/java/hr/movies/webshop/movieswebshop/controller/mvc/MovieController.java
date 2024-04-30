@@ -4,8 +4,8 @@ import hr.movies.webshop.movieswebshop.dto.MovieRequestDTO;
 import hr.movies.webshop.movieswebshop.model.MovieSearchForm;
 import hr.movies.webshop.movieswebshop.publisher.CustomSpringEventPublisher;
 import hr.movies.webshop.movieswebshop.repository.MovieAgeRatingRepository;
-import hr.movies.webshop.movieswebshop.service.MovieGenresService;
-import hr.movies.webshop.movieswebshop.service.MoviesService;
+import hr.movies.webshop.movieswebshop.service.MovieGenreService;
+import hr.movies.webshop.movieswebshop.service.MovieService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,21 +16,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/mvc/movieswebshop")
 @AllArgsConstructor
 @SessionAttributes({"movieSearchForm", "movieGenres", "movieAgeRatings"})
-public class MoviesController {
+public class MovieController {
 
     private MovieAgeRatingRepository movieAgeRatingRepository;
-    private MoviesService moviesService;
-    private MovieGenresService movieGenresService;
+    private MovieService movieService;
+    private MovieGenreService movieGenreService;
     private CustomSpringEventPublisher publisher;
-
 
     @GetMapping("/getMovies.html")
     public String getMovies(Model model) {
-        publisher.publishCustomEvent("MoviesController :: Search movies screen displayed!");
+        publisher.publishCustomEvent("MovieController :: Search movies screen displayed!");
         if (!model.containsAttribute("movieSearchForm"))
             model.addAttribute("movieSearchForm", new MovieSearchForm());
         model.addAttribute("movies",
-                moviesService.filterMovies((MovieSearchForm) model.getAttribute("movieSearchForm")));
+                movieService.filterMovies((MovieSearchForm) model.getAttribute("movieSearchForm")));
         addDropdownsToModel(model);
         return "movies";
     }
@@ -46,7 +45,7 @@ public class MoviesController {
     @GetMapping("/getMovieForm.html")
     public String getMovieForm(Model model, @RequestParam(required = false) Integer id) {
         if (id != null) {
-            MovieRequestDTO movieRequestDTO = moviesService.getMovieRequestDTO(id).orElse(null);
+            MovieRequestDTO movieRequestDTO = movieService.getMovieRequestDTO(id).orElse(null);
             if (movieRequestDTO == null) {
                 model.addAttribute("errorMessage", "Movie not found!");
                 return "/error/404";
@@ -61,7 +60,7 @@ public class MoviesController {
     @PostMapping("/createMovie.html")
     public String createMovie(Model model, MovieRequestDTO movieRequestDTO, RedirectAttributes redirectAttrs) {
         try {
-            moviesService.createMovie(movieRequestDTO);
+            movieService.createMovie(movieRequestDTO);
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
             redirectAttrs.addFlashAttribute("movie", movieRequestDTO);
@@ -73,7 +72,7 @@ public class MoviesController {
     @PostMapping("/updateMovie.html")
     public String updateMovie(Model model, MovieRequestDTO movieRequestDTO, RedirectAttributes redirectAttrs) {
         try {
-            moviesService.updateMovie(movieRequestDTO);
+            movieService.updateMovie(movieRequestDTO);
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:getMovieForm.html?id=" + movieRequestDTO.getId();
@@ -83,13 +82,13 @@ public class MoviesController {
 
     @PostMapping("/deleteMovie.html")
     public String deleteMovie(Model model, MovieRequestDTO movieRequestDTO) {
-        moviesService.deleteMovie(movieRequestDTO.getId());
+        movieService.deleteMovie(movieRequestDTO.getId());
         return "redirect:getMovies.html";
     }
 
     private void addDropdownsToModel(Model model) {
         if (!model.containsAttribute("movieGenres"))
-            model.addAttribute("movieGenres", movieGenresService.getMovieGenres());
+            model.addAttribute("movieGenres", movieGenreService.getMovieGenres());
         if (!model.containsAttribute("movieAgeRatings"))
             model.addAttribute("movieAgeRatings", movieAgeRatingRepository.findAll());
     }

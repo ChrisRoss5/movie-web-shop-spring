@@ -1,7 +1,7 @@
 package hr.movies.webshop.movieswebshop.controller.mvc;
 
 import hr.movies.webshop.movieswebshop.model.MovieGenre;
-import hr.movies.webshop.movieswebshop.service.MovieGenresService;
+import hr.movies.webshop.movieswebshop.service.MovieGenreService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +13,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/mvc/movieswebshop")
 @AllArgsConstructor
-public class MovieGenresController {
+public class MovieGenreController {
 
-    private MovieGenresService movieGenresService;
+    private MovieGenreService movieGenreService;
 
     @GetMapping("/getMovieGenres.html")
     public String getMovieGenres(Model model) {
-        model.addAttribute("movieGenres", movieGenresService.getMovieGenres());
+        model.addAttribute("movieGenres", movieGenreService.getMovieGenres());
         model.addAttribute("movieGenre", new MovieGenre());
         return "movieGenres";
     }
@@ -27,7 +27,7 @@ public class MovieGenresController {
     @PostMapping("/createMovieGenre.html")
     public String createMovieGenre(Model model, MovieGenre movieGenre, RedirectAttributes redirectAttrs) {
         try {
-            movieGenresService.createMovieGenre(movieGenre);
+            movieGenreService.createMovieGenre(movieGenre);
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
         }
@@ -37,7 +37,7 @@ public class MovieGenresController {
     @PostMapping("/updateMovieGenre.html")
     public String updateMovieGenre(Model model, MovieGenre movieGenre, RedirectAttributes redirectAttrs) {
         try {
-            movieGenresService.updateMovieGenre(movieGenre);
+            movieGenreService.updateMovieGenre(movieGenre);
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
         }
@@ -46,8 +46,7 @@ public class MovieGenresController {
 
     @PostMapping("/deleteMovieGenre.html")
     public String deleteMovieGenre(Model model, MovieGenre movieGenre) {
-        System.out.println("adrqwawde:" + movieGenre);
-        movieGenresService.deleteMovieGenre(movieGenre.getId());
+        movieGenreService.deleteMovieGenre(movieGenre.getId());
         return "redirect:getMovieGenres.html";
     }
 }

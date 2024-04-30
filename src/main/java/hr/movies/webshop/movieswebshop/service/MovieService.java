@@ -7,7 +7,7 @@ import hr.movies.webshop.movieswebshop.model.MovieSearchForm;
 import java.util.List;
 import java.util.Optional;
 
-public interface MoviesService {
+public interface MovieService {
     List<MovieResponseDTO> getMovies();
     Optional<MovieResponseDTO> getMovieResponseDTO(Integer id);
     Optional<MovieRequestDTO> getMovieRequestDTO(Integer id);
