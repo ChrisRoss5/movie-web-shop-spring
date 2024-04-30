@@ -22,7 +22,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         String[] roles = new String[user.getRoles().size()];
 
-        for(int i = 0; i < user.getRoles().size(); i++) {
+        for (int i = 0; i < user.getRoles().size(); i++) {
             roles[i] = user.getRoles().get(i).getName();
         }
 

@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface PurchaseService {
     List<Purchase> getHistory(@Nullable User user);
+
     List<Purchase> filterHistory(HistorySearchForm historySearchForm);
+
     boolean purchase(CartDTO cartDTO, User user);
 }
