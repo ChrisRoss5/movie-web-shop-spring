@@ -17,13 +17,13 @@ INSERT INTO Movie (genreId, ageRatingId, title, description, thumbnailUrl, durat
 VALUES (3, 4, 'The Shawshank Redemption', 'Drama about hope and friendship in prison',
         'https://wallpapercave.com/wp/wp2014276.jpg', 142, '1994-09-23', 12.99);
 
--- Insert default users (password: 3)
+-- Insert default users (password for everyone: 3)
 INSERT INTO "User"(username, password)
-VALUES ('u', '$2a$10$OI1MEzYoEwX.1szvETEsrOIt09N.V9x/GJ9BKiaCDuqGxlCRtRgVK'); -- user
+VALUES ('user', '$2a$10$OI1MEzYoEwX.1szvETEsrOIt09N.V9x/GJ9BKiaCDuqGxlCRtRgVK');
 INSERT INTO "User"(username, password)
-VALUES ('3', '$2a$10$OI1MEzYoEwX.1szvETEsrOIt09N.V9x/GJ9BKiaCDuqGxlCRtRgVK'); -- admin
+VALUES ('admin', '$2a$10$OI1MEzYoEwX.1szvETEsrOIt09N.V9x/GJ9BKiaCDuqGxlCRtRgVK');
 INSERT INTO "User"(username, password)
-VALUES ('ro', '$2a$10$OI1MEzYoEwX.1szvETEsrOIt09N.V9x/GJ9BKiaCDuqGxlCRtRgVK'); -- read-only
+VALUES ('readonly', '$2a$10$OI1MEzYoEwX.1szvETEsrOIt09N.V9x/GJ9BKiaCDuqGxlCRtRgVK');
 
 -- Insert default roles
 INSERT INTO Role(name)

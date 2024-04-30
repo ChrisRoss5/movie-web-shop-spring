@@ -87,9 +87,8 @@ public class MovieController {
     }
 
     private void addDropdownsToModel(Model model) {
-        if (!model.containsAttribute("movieGenres"))
-            model.addAttribute("movieGenres", movieGenreService.getMovieGenres());
-        if (!model.containsAttribute("movieAgeRatings"))
+        model.addAttribute("movieGenres", movieGenreService.getMovieGenres());
+        if (!model.containsAttribute("movieAgeRatings"))  // because there's no CRUD
             model.addAttribute("movieAgeRatings", movieAgeRatingRepository.findAll());
     }
 }

@@ -18,21 +18,17 @@ import java.time.LocalDateTime;
 @Component
 public class HttpSessionMoviesWebShopListener implements HttpSessionListener {
 
-    @Autowired
-    private LogRepository logRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
     @Override
     public void sessionCreated(final HttpSessionEvent event) {
         System.out.println("Session created");
         String ipAddr = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest().getRemoteAddr();
         System.out.println("IP address: " + ipAddr);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUsername(authentication.getName());
-        logRepository.save(new Log(null, user, ipAddr, "New session created", LocalDateTime.now()));
+
+        // NOT GUARANTEED TO WORK BECAUSE SESSION MAY BE CREATED BEFORE OR AFTER LOGIN:
+        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // LOGS MOVED TO LoginListener.java
     }
 
     @Override
