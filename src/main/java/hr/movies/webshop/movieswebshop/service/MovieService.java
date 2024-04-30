@@ -9,10 +9,16 @@ import java.util.Optional;
 
 public interface MovieService {
     List<MovieResponseDTO> getMovies();
+
     Optional<MovieResponseDTO> getMovieResponseDTO(Integer id);
+
     Optional<MovieRequestDTO> getMovieRequestDTO(Integer id);
+
     List<MovieResponseDTO> filterMovies(MovieSearchForm movieSearchForm);
+
     void createMovie(MovieRequestDTO newMovieRequestDTO);
+
     void updateMovie(MovieRequestDTO movieRequestDTO);
+
     void deleteMovie(Integer id);
 }

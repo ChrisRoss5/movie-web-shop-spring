@@ -2,7 +2,10 @@ package hr.movies.webshop.movieswebshop.service;
 
 import hr.movies.webshop.movieswebshop.dto.MovieRequestDTO;
 import hr.movies.webshop.movieswebshop.dto.MovieResponseDTO;
-import hr.movies.webshop.movieswebshop.model.*;
+import hr.movies.webshop.movieswebshop.model.Movie;
+import hr.movies.webshop.movieswebshop.model.MovieAgeRating;
+import hr.movies.webshop.movieswebshop.model.MovieGenre;
+import hr.movies.webshop.movieswebshop.model.MovieSearchForm;
 import hr.movies.webshop.movieswebshop.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;

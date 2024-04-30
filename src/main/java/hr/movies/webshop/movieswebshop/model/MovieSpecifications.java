@@ -60,8 +60,10 @@ public class MovieSpecifications {
     public static Specification<Movie> durationBetween(Integer durationMinutesFrom, Integer durationMinutesTo) {
         return (root, query, cb) -> {
             if (durationMinutesFrom == null && durationMinutesTo == null) return null;
-            if (durationMinutesFrom != null && durationMinutesTo == null) return cb.greaterThanOrEqualTo(root.get("durationMinutes"), durationMinutesFrom);
-            if (durationMinutesFrom == null) return cb.lessThanOrEqualTo(root.get("durationMinutes"), durationMinutesTo);
+            if (durationMinutesFrom != null && durationMinutesTo == null)
+                return cb.greaterThanOrEqualTo(root.get("durationMinutes"), durationMinutesFrom);
+            if (durationMinutesFrom == null)
+                return cb.lessThanOrEqualTo(root.get("durationMinutes"), durationMinutesTo);
             return cb.between(root.get("durationMinutes"), durationMinutesFrom, durationMinutesTo);
         };
     }
