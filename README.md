@@ -6,6 +6,8 @@
 
 ### https://movies-web-shop.oa.r.appspot.com
 
+**IMPORTANT: Startup may take up to a 30s due to cold start.**
+
 | USERNAME | PASSWORD | ROLE      |
 | -------- | -------- | --------- |
 | user     | 3        | USER      |
