@@ -1,6 +1,10 @@
 # App deployed on GCP, App Engine
 
-### https://movies-web-shop.oa.r.appspot.com/
+### https://mws.k1k1.dev
+
+-- OR --
+
+### https://movies-web-shop.oa.r.appspot.com
 
 | USERNAME | PASSWORD | ROLE      |
 | -------- | -------- | --------- |
@@ -12,6 +16,8 @@
 
 Followed these steps:  
 https://codelabs.developers.google.com/codelabs/cloud-app-engine-springboot
+
+Note that `/h2-console` may not work fully on the deployed version.
 
 ---
 
